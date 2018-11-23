@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,6 +15,10 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,9 +40,25 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view)
             {
                 Integer randomNumber = new Random().nextInt();
-                //api call
-                NumberTrivia newTrivia = new NumberTrivia(null, null);
-                triviaList.add(newTrivia);
+                NumbersApiService service = NumbersApiService.retrofit.create(NumbersApiService.class);
+                Call<NumberTrivia> call = service.getQuote(randomNumber);
+                call.enqueue(new Callback<NumberTrivia>() {
+
+                    @Override
+                    public void onResponse(Call<NumberTrivia> call, Response<NumberTrivia> response)
+                    {
+                        NumberTrivia quoteItem = response.body();
+                        triviaList.add(quoteItem);
+                        triviaView.getAdapter().notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onFailure(Call<NumberTrivia> call, Throwable t)
+                    {
+                        Log.d("error",t.toString());
+                    }
+
+                });
             }
         });
     }
