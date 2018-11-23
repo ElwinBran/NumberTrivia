@@ -1,24 +1,41 @@
 package com.github.elwinbran.numbertrivia;
 
-public class NumberTrivia
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+
+public class NumberTrivia implements Serializable
 {
-    final private String triviaText;
+    @SerializedName("text")
+    @Expose
+    private String text;
 
-    final private Integer triviaNumber;
+    @SerializedName("year")
+    @Expose
+    private Integer year;
 
-    public NumberTrivia( String triviaText, Integer triviaNumber)
-    {
-        this.triviaText = triviaText;
-        this.triviaNumber = triviaNumber;
-    }
+    @SerializedName("number")
+    @Expose
+    private Integer number;
+
+    @SerializedName("found")
+    @Expose
+    private Boolean found;
+
+    @SerializedName("type")
+    @Expose
+    private String type;
+
+    public NumberTrivia(){}
 
     public String triviaText()
     {
-        return this.triviaText;
+        return this.text;
     }
 
     public Integer triviaNumber()
     {
-        return this.triviaNumber;
+        return this.number;
     }
 }
