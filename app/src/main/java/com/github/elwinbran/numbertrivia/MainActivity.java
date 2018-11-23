@@ -21,9 +21,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final List<NumberTrivia> triviaList = new ArrayList<>();
-        RecyclerView triviaView = null;
-        triviaView.setLayoutManager(new LinearLayoutManager(this));
         setContentView(R.layout.activity_main);
+        final RecyclerView triviaView = findViewById(R.id.triviaListView);
+        triviaView.setLayoutManager(new LinearLayoutManager(this));
+        triviaView.setAdapter(new NumberTriviaAdapter(triviaList));
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
